@@ -16,6 +16,7 @@ import {
     Lock,
     Contact,
     Eye,
+    FlaskConical,
 } from "lucide";
 
 const icons = {
@@ -33,6 +34,7 @@ const icons = {
     Lock,
     Contact,
     Eye,
+    FlaskConical,
 };
 
 createIcons({ icons });

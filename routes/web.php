@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
@@ -21,6 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('user', UserController::class);
     Route::resource('roles', RoleController::class);
     Route::resource('customers', CustomerController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 require __DIR__ . '/auth.php';

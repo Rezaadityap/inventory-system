@@ -6,6 +6,11 @@
             'route' => 'dashboard',
         ],
         [
+            'label' => 'Kategori',
+            'icon' => 'flask-conical',
+            'route' => 'categories.index',
+        ],
+        [
             'label' => 'Customers',
             'icon' => 'contact',
             'route' => 'customers.index',
