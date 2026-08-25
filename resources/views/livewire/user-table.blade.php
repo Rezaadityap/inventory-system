@@ -17,7 +17,8 @@ new class extends Component {
     public function with()
     {
         return [
-            'users' => User::with('role')
+            'users' => User::query()
+                ->with('roles')
                 ->when($this->search, function ($query) {
                     $query->where(function ($q) {
                         $q->where('name', 'like', "%{$this->search}%")
@@ -46,7 +47,7 @@ new class extends Component {
                     <th>Nama</th>
                     <th>Username</th>
                     <th>Email</th>
-                    <th>Hak Akses</th>
+                    <th>Role</th>
                     <th>Status</th>
                     <th>Aksi</th>
                 </tr>
@@ -58,7 +59,14 @@ new class extends Component {
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->username }}</td>
                         <td>{{ $user->email }}</td>
-                        <td>{{ $user->role->name }}</td>
+                        <td>
+                            @if ($user->roles->isNotEmpty())
+                                <span
+                                    class="table-badge table-badge-success">{{ $user->roles->pluck('name')->implode(', ') }}</span>
+                            @else
+                                <span class="table-badge table-badge-warning">Belum ada role</span>
+                            @endif
+                        </td>
                         <td>
                             <span class="table-badge table-badge-success">Aktif</span>
                         </td>
@@ -71,7 +79,7 @@ new class extends Component {
                                         name: @js($user->name),
                                         username: @js($user->username),
                                         email: @js($user->email),
-                                        role_id: {{ $user->role_id }}
+                                        role: @js($user->roles->first()->name ?? ''),
                                     }">
                                     <i data-lucide="pencil" class="w-4 h-4 shrink-0"></i>
                                     Edit

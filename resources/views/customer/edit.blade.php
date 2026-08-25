@@ -36,6 +36,16 @@
                     <label class="form-label required">Alamat Perusahaan</label>
                     <textarea name="address" id="address" cols="8" rows="3" class="form-input" x-model="editData.address"></textarea>
                 </div>
+
+                <div>
+                    <label class="form-label">Nama PIC</label>
+                    <select name="user_id" class="form-input" x-model="editData.user_id">
+                        <option value="">Pilih PIC</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <div class="modal-footer">

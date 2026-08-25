@@ -34,8 +34,8 @@
                 </div>
                 <div>
                     <label for="password_confirmation" class="form-label required">Ulangi Password</label>
-                    <input type="password" name="password_confirmation" id="password_confirmation"
-                        class="form-input" placeholder="Ulangi Password" required>
+                    <input type="password" name="password_confirmation" id="password_confirmation" class="form-input"
+                        placeholder="Ulangi Password" required>
                 </div>
                 <div>
                     <label for="photo" class="form-label">Foto</label>
@@ -43,15 +43,18 @@
                         class="form-input cursor-pointer">
                     <x-input-error :messages="$errors->get('photo')" class="mt-1" />
                 </div>
+
                 <div>
-                    <label for="role_id" class="form-label required">Hak Akses</label>
-                    <select name="role_id" id="role_id" class="form-input cursor-pointer" required>
-                        <option value="" disabled @selected(!old('role_id'))>Pilih Hak Akses</option>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}" @selected(old('role_id') == $role->id)>{{ $role->name }}</option>
+                    <label for="role" class="form-label required">Role</label>
+                    <select name="role" id="role" class="form-input" required>
+                        <option value="">Pilih Role</option>
+                        @foreach ($roles as $item)
+                            <option value="{{ $item->name }}" {{ old('role') === $item->name ? 'selected' : '' }}>
+                                {{ $item->name }}
+                            </option>
                         @endforeach
                     </select>
-                    <x-input-error :messages="$errors->get('role_id')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('role')" class="mt-1" />
                 </div>
             </div>
 

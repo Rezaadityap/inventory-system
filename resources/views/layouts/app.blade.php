@@ -11,6 +11,7 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="{{ asset('ssg.png') }}">
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -21,17 +22,20 @@
 <body class="font-sans antialiased">
     @include('components.toast')
 
-    <div class="min-h-screen bg-background flex flex-col gap-5 p-5 md:flex-row" x-data="{ mobileSidebarOpen: false }">
+    <div class="min-h-screen bg-background flex flex-col gap-5 p-5 md:flex-row"
+        x-data="{ mobileSidebarOpen: false, logoutModal: false }">
         <!-- Mobile sidebar backdrop -->
         <div x-show="mobileSidebarOpen" x-transition.opacity x-cloak @click="mobileSidebarOpen = false"
             class="fixed inset-0 z-40 bg-black/50 md:hidden"></div>
 
         <!-- Page Content -->
-        @include('components.sidebar')
+        @livewire('sidebar')
         <main class="flex-1 min-w-0">
             @include('components.navbar')
             @yield('content')
         </main>
+
+        @include('components.logout-modal')
     </div>
     @livewireScripts
 </body>

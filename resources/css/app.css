@@ -10,7 +10,7 @@
     --font-sans: "Inter", sans-serif;
     --font-display: "Plus Jakarta Sans", sans-serif;
 
-    --color-primary: #1f6e4c;
+    --color-primary: #3368a0;
     --color-primary-dark: #15503a;
     --color-secondary: #6fa287;
     --color-background: #f6f9f7;
@@ -299,6 +299,28 @@
     border-radius: 9999px;
     background-color: color-mix(in srgb, var(--color-danger) 12%, transparent);
     color: var(--color-danger);
+}
+
+@utility modal-icon-success {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background-color: color-mix(in srgb, var(--color-success) 12%, transparent);
+    color: var(--color-success);
+}
+
+@utility modal-icon-warning {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 9999px;
+    background-color: color-mix(in srgb, var(--color-warning) 12%, transparent);
+    color: var(--color-warning);
 }
 
 @utility form-label {

@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
     public function index()
     {
-        $users = User::paginate(10);
+        $users = User::with('roles')->paginate(10);
         $roles = Role::all();
 
         return view('user.index', compact('users', 'roles'));
@@ -27,7 +27,7 @@ class UserController extends Controller
             'username' => 'required|string|max:255|unique:users,username',
             'password' => ['required', 'confirmed', Password::min(8)],
             'photo' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
-            'role_id' => 'required|exists:roles,id'
+            'role' => 'required|exists:roles,name',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -35,8 +35,11 @@ class UserController extends Controller
         }
 
         $data['password'] = Hash::make($data['password']);
+        $role = $data['role'];
+        unset($data['role']);
 
-        User::create($data);
+        $user = User::create($data);
+        $user->assignRole($role);
 
         return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -48,7 +51,7 @@ class UserController extends Controller
             'username' => 'required|string|unique:users,username,' . $user->id,
             'email' => 'required|email|unique:users,email,' . $user->id,
             'photo' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:2048',
-            'role_id' => 'required|exists:roles,id'
+            'role' => 'required|exists:roles,name',
         ]);
 
         if ($request->hasFile('photo')) {
@@ -59,7 +62,11 @@ class UserController extends Controller
             $data['photo'] = $request->file('photo')->store('user_images', 'public');
         }
 
+        $role = $data['role'];
+        unset($data['role']);
+
         $user->update($data);
+        $user->syncRoles([$role]);
 
         return redirect()->route('user.index')->with('success', 'User berhasil diupdate.');
     }

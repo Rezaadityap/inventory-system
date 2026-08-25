@@ -11,6 +11,12 @@ class Customer extends Model
         'email',
         'phone_number',
         'company_photo',
-        'address'
+        'address',
+        'user_id'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

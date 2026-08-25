@@ -26,17 +26,18 @@
                 </div>
 
                 <div>
-                    <label class="form-label required">Hak Akses</label>
-                    <select name="role_id" class="form-input cursor-pointer" x-model="editData.role_id" required>
-                        @foreach ($roles as $role)
-                            <option value="{{ $role->id }}">{{ $role->name }}</option>
-                        @endforeach
-                    </select>
+                    <label class="form-label">Foto (kosongkan jika tidak diganti)</label>
+                    <input type="file" name="photo" class="form-input" accept="image/*">
                 </div>
 
                 <div>
-                    <label class="form-label">Foto (kosongkan jika tidak diganti)</label>
-                    <input type="file" name="photo" class="form-input" accept="image/*">
+                    <label class="form-label required">Role</label>
+                    <select name="role" class="form-input" x-model="editData.role" required>
+                        <option value="">Pilih Role</option>
+                        @foreach ($roles as $item)
+                            <option value="{{ $item->name }}">{{ $item->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('page-title')
-    Roles
+    Limbah
 @endsection
 @section('page-subtitle')
     Welcome back, {{ Auth::user()->name }}
@@ -8,10 +8,10 @@
 
 @section('content')
     <div class="w-full bg-white p-5 shadow-md rounded-xl" x-data="{ createModal: {{ $errors->any() ? 'true' : 'false' }}, editModal: false, editData: {}, deleteModal: false, deleteData: {} }">
-        @livewire('role-table')
+        @livewire('waste-table')
 
-        @include('role.create')
-        @include('role.edit')
-        @include('role.delete')
+        @include('waste.create')
+        @include('waste.edit')
+        @include('waste.delete')
     </div>
 @endsection

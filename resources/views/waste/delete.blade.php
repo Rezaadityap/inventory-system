@@ -1,6 +1,6 @@
 <div x-show="deleteModal" x-cloak x-transition.opacity @keydown.escape.window="deleteModal = false" class="modal-overlay">
     <div x-show="deleteModal" x-transition @click.outside="deleteModal = false" class="modal-panel">
-        <form :action="`/roles/${deleteData.id}`" method="POST">
+        <form :action="`/wastes/${deleteData.id}`" method="POST">
             @csrf
             @method('DELETE')
 
@@ -10,10 +10,10 @@
                 </span>
 
                 <div>
-                    <p class="font-display font-semibold text-text-primary">Hapus Hak Akses?</p>
+                    <p class="font-display font-semibold text-text-primary">Hapus Limbah?</p>
                     <p class="text-sm text-text-secondary mt-1">
                         Kamu yakin mau hapus <span class="font-medium text-text-primary"
-                            x-text="deleteData.name"></span>?
+                            x-text="deleteData.waste_name"></span>?
                         Tindakan ini tidak bisa dibatalkan.
                     </p>
                 </div>

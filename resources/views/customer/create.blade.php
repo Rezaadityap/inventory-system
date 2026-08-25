@@ -33,10 +33,22 @@
                     <x-input-error :messages="$errors->get('company_photo')" class="mt-1" />
                 </div>
                 <div>
-                    <label for="address" class="form-label required">Alamat Perusahaan</label>
+                    <label for="address" class="form-label">Alamat Perusahaan</label>
                     <textarea name="address" id="address" cols="8" rows="3" class="form-input"
                         placeholder="Masukkan Alamat Perusahaan">{{ old('address') }}</textarea>
                     <x-input-error :messages="$errors->get('address')" class="mt-1" />
+                </div>
+                <div>
+                    <label for="user_id" class="form-label">Nama PIC</label>
+                    <select name="user_id" id="user_id" class="form-input">
+                        <option value="">Pilih PIC</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->id }}" {{ (string) old('user_id') === (string) $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                    <x-input-error :messages="$errors->get('user_id')" class="mt-1" />
                 </div>
             </div>
 

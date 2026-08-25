@@ -1,33 +1,3 @@
-@php
-    $sidebarMenus = [
-        [
-            'label' => 'Dashboard',
-            'icon' => 'layout-grid',
-            'route' => 'dashboard',
-        ],
-        [
-            'label' => 'Kategori',
-            'icon' => 'flask-conical',
-            'route' => 'categories.index',
-        ],
-        [
-            'label' => 'Customers',
-            'icon' => 'contact',
-            'route' => 'customers.index',
-        ],
-        [
-            'label' => 'Users',
-            'icon' => 'users',
-            'route' => 'user.index',
-        ],
-        [
-            'label' => 'Hak Akses',
-            'icon' => 'lock',
-            'route' => 'roles.index',
-        ],
-    ];
-@endphp
-
 <aside x-data="{ collapsed: localStorage.getItem('sidebarCollapsed') === 'true' }" x-init="$watch('collapsed', value => localStorage.setItem('sidebarCollapsed', value))"
     :class="{
         'translate-x-0': mobileSidebarOpen,
@@ -62,7 +32,7 @@
                 class="w-11 h-11 rounded-2xl object-cover border border-black/5 shrink-0" alt="Foto User">
             <div class="flex flex-col overflow-hidden" x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak>
                 <small
-                    class="text-[10.5px] uppercase tracking-wide text-white whitespace-nowrap">{{ Auth::user()->role->name }}</small>
+                    class="text-[10.5px] uppercase tracking-wide text-white whitespace-nowrap">{{ Auth::user()->getRoleNames()->first() ?? 'Member' }}</small>
                 <p class="font-display text-sm font-semibold text-white whitespace-nowrap">{{ Auth::user()->name }}</p>
             </div>
         </div>
@@ -73,19 +43,35 @@
         <nav>
             <ul class="space-y-1">
                 @foreach ($sidebarMenus as $item)
+                    @php $hasRoute = $item->route && \Illuminate\Support\Facades\Route::has($item->route); @endphp
                     <li>
-                        <a href="{{ route($item['route']) }}"
+                        <a href="{{ $hasRoute ? route($item->route) : '#' }}"
                             :class="collapsed && !mobileSidebarOpen && 'justify-center'"
-                            class="flex items-center gap-3 px-3 py-2.5 rounded-2xl font-semibold text-sm
-                            {{ request()->routeIs($item['route']) ? 'bg-white text-primary-dark shadow-md shadow-primary/30' : 'text-white hover:bg-white/10' }}">
-                            <i data-lucide="{{ $item['icon'] }}" class="w-4.5 h-4.5 shrink-0"></i>
+                            class="relative flex items-center gap-3 px-3 py-2.5 rounded-2xl font-semibold text-sm
+                            {{ $hasRoute && request()->routeIs($item->route) ? 'bg-white text-primary-dark shadow-md shadow-primary/30' : 'text-white hover:bg-white/10' }}">
+                            <i data-lucide="{{ $item->icon ?: 'circle' }}" class="w-4.5 h-4.5 shrink-0"></i>
                             <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
-                                class="whitespace-nowrap">{{ $item['label'] }}</span>
+                                class="whitespace-nowrap">{{ $item->name }}</span>
+                            @if ($item->route === 'transactions.index' && $pendingTransactions > 0)
+                                <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
+                                    class="ml-auto inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-danger text-white text-[10.5px] font-semibold">{{ $pendingTransactions }}</span>
+                                <span x-show="collapsed && !mobileSidebarOpen"
+                                    class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span>
+                            @endif
                         </a>
                     </li>
                 @endforeach
             </ul>
         </nav>
+
+        <div class="border-t border-black/5">
+            <button type="button" @click="logoutModal = true" :class="collapsed && !mobileSidebarOpen && 'justify-center'"
+                class="flex items-center gap-3 w-full px-3 py-2.5 rounded-2xl font-semibold text-sm text-white hover:bg-white/10 cursor-pointer">
+                <i data-lucide="log-out" class="w-4.5 h-4.5 shrink-0"></i>
+                <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
+                    class="whitespace-nowrap">Logout</span>
+            </button>
+        </div>
     </div>
 </aside>
 

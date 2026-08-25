@@ -80,6 +80,7 @@ new class extends Component {
                                         email: @js($customer->email),
                                         phone_number: @js($customer->phone_number),
                                         address: @js($customer->address),
+                                        user_id: @js($customer->user_id)
                                     }">
                                     <i data-lucide="pencil" class="w-4 h-4 shrink-0"></i>
                                     Edit

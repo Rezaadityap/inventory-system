@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,9 +11,10 @@ class CustomerController extends Controller
 {
     public function index()
     {
-        $customers = Customer::all();
+        $customers = Customer::with('user');
+        $users = User::role('pelanggan')->get();
 
-        return view('customer.index', compact('customers'));
+        return view('customer.index', compact('customers', 'users'));
     }
 
     public function store(Request $request)
@@ -22,7 +24,8 @@ class CustomerController extends Controller
             'email' => 'nullable|email|unique:customers,email',
             'phone_number' => 'required|min:10|numeric',
             'company_photo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'address' => 'required|string'
+            'address' => 'required|string',
+            'user_id' => 'nullable|exists:users,id'
         ]);
 
         if ($request->hasFile('company_photo')) {
@@ -41,7 +44,8 @@ class CustomerController extends Controller
             'email' => 'nullable|email|unique:customers,email,' . $customer->id,
             'phone_number' => 'required|min:11|numeric',
             'company_photo' => 'nullable|image|mimes:png,jpg,jpeg,webp|max:2048',
-            'address' => 'required|string'
+            'address' => 'required|string',
+            'user_id' => 'nullable|exists:users,id'
         ]);
 
         if ($request->hasFile('company_photo')) {

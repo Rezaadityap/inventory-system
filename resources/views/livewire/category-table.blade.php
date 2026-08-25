@@ -41,7 +41,7 @@ new class extends Component {
             <thead class="table-head">
                 <tr>
                     <th>No</th>
-                    <th>Category Name</th>
+                    <th>Nama Kategori</th>
                     <th>Deskripsi</th>
                     <th>Aksi</th>
                 </tr>

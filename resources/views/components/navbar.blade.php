@@ -22,7 +22,7 @@
                 class="w-10 h-10 rounded-full object-cover border border-black/5" alt="{{ Auth::user()->name }}">
             <div class="hidden md:flex flex-col">
                 <p class="text-sm font-semibold text-gray-800 leading-tight">{{ Auth::user()->name }}</p>
-                <small class="text-[10.5px] text-gray-400">{{ Auth::user()->role->name ?? 'Member' }}</small>
+                <small class="text-[10.5px] text-gray-400">{{ Auth::user()->getRoleNames()->first() ?? 'Member' }}</small>
             </div>
         </div>
     </div>

@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('page-title')
-    Customers
+    Pelanggan
 @endsection
 @section('page-subtitle')
     Welcome back, {{ Auth::user()->name }}

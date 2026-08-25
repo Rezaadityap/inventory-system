@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('page-title')
-    Users
+    Pengguna
 @endsection
 @section('page-subtitle')
     Welcome back, {{ Auth::user()->name }}
