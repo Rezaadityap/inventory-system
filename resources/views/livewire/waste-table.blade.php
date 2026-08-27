@@ -30,7 +30,8 @@ new class extends Component {
                     $query->where(function ($q) {
                         $q->where('code', 'like', "%{$this->search}%")
                             ->orWhere('waste_name', 'like', "%{$this->search}%")
-                            ->orWhere('unit', 'like', "%{$this->search}%");
+                            ->orWhere('unit', 'like', "%{$this->search}%")
+                            ->orWhere('unit_price', 'like', "%{$this->search}%");
                     });
                 })
                 ->when($this->categoryFilter, function ($query) {
@@ -66,6 +67,7 @@ new class extends Component {
                     <th>Kode</th>
                     <th>Nama Limbah</th>
                     <th>Unit</th>
+                    <th>Harga</th>
                     <th>Kategori</th>
                     <th>Aksi</th>
                 </tr>
@@ -77,6 +79,7 @@ new class extends Component {
                         <td>{{ $waste->code }}</td>
                         <td>{{ $waste->waste_name }}</td>
                         <td>{{ $waste->unit }}</td>
+                        <td>{{ $waste->formattedPrice }}</td>
                         <td>{{ $waste->category->category_name }}</td>
                         <td>
                             <div class="flex space-x-2">
@@ -87,6 +90,7 @@ new class extends Component {
                                         code: @js($waste->code),
                                         waste_name: @js($waste->waste_name),
                                         unit: @js($waste->unit),
+                                        unit_price: @js($waste->unit_price),
                                         category_id: @js($waste->category_id),
                                     }">
                                     <i data-lucide="pencil" class="w-4 h-4 shrink-0"></i>
@@ -106,7 +110,7 @@ new class extends Component {
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="px-4 py-6 text-center text-text-secondary">
+                        <td colspan="7" class="px-4 py-6 text-center text-text-secondary">
                             Data tidak ditemukan.
                         </td>
                     </tr>

@@ -52,12 +52,14 @@
                             <i data-lucide="{{ $item->icon ?: 'circle' }}" class="w-4.5 h-4.5 shrink-0"></i>
                             <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
                                 class="whitespace-nowrap">{{ $item->name }}</span>
-                            @if ($item->route === 'transactions.index' && $pendingTransactions > 0)
-                                <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
-                                    class="ml-auto inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-danger text-white text-[10.5px] font-semibold">{{ $pendingTransactions }}</span>
-                                <span x-show="collapsed && !mobileSidebarOpen"
-                                    class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span>
-                            @endif
+                            @role('admin')
+                                @if ($item->route === 'transactions.index' && $pendingTransactions > 0)
+                                    <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
+                                        class="ml-auto inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-danger text-white text-[10.5px] font-semibold">{{ $pendingTransactions }}</span>
+                                    <span x-show="collapsed && !mobileSidebarOpen"
+                                        class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span>
+                                @endif
+                            @endrole
                         </a>
                     </li>
                 @endforeach
@@ -65,7 +67,8 @@
         </nav>
 
         <div class="border-t border-black/5">
-            <button type="button" @click="logoutModal = true" :class="collapsed && !mobileSidebarOpen && 'justify-center'"
+            <button type="button" @click="logoutModal = true"
+                :class="collapsed && !mobileSidebarOpen && 'justify-center'"
                 class="flex items-center gap-3 w-full px-3 py-2.5 rounded-2xl font-semibold text-sm text-white hover:bg-white/10 cursor-pointer">
                 <i data-lucide="log-out" class="w-4.5 h-4.5 shrink-0"></i>
                 <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak

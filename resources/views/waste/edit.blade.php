@@ -28,6 +28,18 @@
                     </select>
                 </div>
                 <div>
+                    <label class="form-label required">Harga</label>
+                    <input type="text" inputmode="numeric" class="form-input"
+                        :value="(editData.unit_price ?? '') !== '' ? Number(String(editData.unit_price).replace(/\D/g,
+                            '')).toLocaleString('id-ID') : ''"
+                        @input="
+                            editData.unit_price = $event.target.value.replace(/\D/g, '');
+                            $event.target.value = editData.unit_price ? Number(editData.unit_price).toLocaleString('id-ID') : '';
+                        "
+                        required>
+                    <input type="hidden" name="unit_price" :value="editData.unit_price">
+                </div>
+                <div>
                     <label class="form-label required">Kategori</label>
                     <select name="category_id" class="form-input" x-model="editData.category_id" required>
                         <option value="">Pilih Kategori</option>

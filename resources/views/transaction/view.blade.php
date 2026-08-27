@@ -1,5 +1,5 @@
 <div x-show="viewModal" x-cloak x-transition.opacity @keydown.escape.window="viewModal = false" class="modal-overlay">
-    <div x-show="viewModal" x-transition @click.outside="viewModal = false" class="modal-panel">
+    <div x-show="viewModal" x-transition @click.outside="viewModal = false" class="modal-panel" x-data="{ rupiah(n) { return 'Rp. ' + Number(n || 0).toLocaleString('id-ID'); } }">
         <div class="modal-header">
             <h2>Detail Transaksi</h2>
             <span class="modal-close" @click="viewModal = false">&times;</span>
@@ -41,6 +41,7 @@
                             <tr>
                                 <th>Limbah</th>
                                 <th>Qty</th>
+                                <th>Harga</th>
                                 <th>Catatan</th>
                             </tr>
                         </thead>
@@ -49,12 +50,18 @@
                                 <tr class="table-row">
                                     <td x-text="item.waste_name"></td>
                                     <td x-text="`${item.qty} ${item.unit}`"></td>
+                                    <td x-text="rupiah(item.price)"></td>
                                     <td x-text="item.note_item || '-'"></td>
                                 </tr>
                             </template>
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-3 border-t border-gray-200 font-semibold">
+                <span>Total Harga</span>
+                <span x-text="rupiah(viewData.total_price)"></span>
             </div>
         </div>
 

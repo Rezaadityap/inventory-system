@@ -22,6 +22,7 @@ class WasteController extends Controller
             'code' => 'required|string|unique:wastes,code',
             'waste_name' => 'required|string',
             'unit' => 'required|in:Gram,Miligram,Kilogram',
+            'unit_price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
         ]);
 
@@ -36,6 +37,7 @@ class WasteController extends Controller
             'code' => 'required|string|unique:wastes,code,' . $waste->id,
             'waste_name' => 'required|string',
             'unit' => 'required|in:Gram,Miligram,Kilogram',
+            'unit_price' => 'required|numeric|min:0',
             'category_id' => 'required|exists:categories,id',
         ]);
 

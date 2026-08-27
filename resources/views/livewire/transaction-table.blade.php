@@ -101,12 +101,14 @@ new class extends Component {
                                         status: @js($transaction->status),
                                         note: @js($transaction->note),
                                         requested_at: @js(optional($transaction->requested_at)->translatedFormat('d F Y')),
+                                        total_price: @js($transaction->total_price),
                                         items: @js(
     $transaction->items->map(
         fn($item) => [
             'waste_name' => $item->waste->waste_name,
             'qty' => $item->qty,
             'unit' => $item->waste->unit,
+            'price' => $item->price,
             'note_item' => $item->note_item,
         ],
     ),
@@ -121,6 +123,9 @@ new class extends Component {
                                             class="inline-flex items-center gap-1 text-warning hover:underline cursor-pointer"
                                             @click="editModal = true; editData = {
                                                 id: {{ $transaction->id }},
+                                                transaction_number: @js($transaction->transaction_number),
+                                                customer_name: @js($transaction->customer->customer_name),
+                                                requested_at: @js(optional($transaction->requested_at)->format('Y-m-d')),
                                                 note: @js($transaction->note),
                                                 items: @js(
     $transaction->items->map(

@@ -30,6 +30,19 @@
                     </select>
                     <x-input-error :messages="$errors->get('unit')" class="mt-1" />
                 </div>
+                <div x-data="{ unit_price: '{{ old('unit_price') }}'.replace(/\D/g, '') }">
+                    <label for="unit_price" class="form-label required">Harga</label>
+                    <input type="text" id="unit_price" inputmode="numeric" class="form-input"
+                        placeholder="Masukan Harga Limbah"
+                        :value="unit_price ? Number(unit_price).toLocaleString('id-ID') : ''"
+                        @input="
+                            unit_price = $event.target.value.replace(/\D/g, '');
+                            $event.target.value = unit_price ? Number(unit_price).toLocaleString('id-ID') : '';
+                        "
+                        required>
+                    <input type="hidden" name="unit_price" :value="unit_price">
+                    <x-input-error :messages="$errors->get('unit_price')" class="mt-1" />
+                </div>
                 <div>
                     <label for="category_id" class="form-label required">Kategori</label>
                     <select name="category_id" id="category_id" class="form-input" required>

@@ -1,6 +1,9 @@
 <div x-show="editModal" x-cloak x-transition-opacity @keydown.escape.window="editModal = false" class="modal-overlay">
-    <div x-show="editModal" x-transition @click.outside="editModal = false" class="modal-panel"
-        x-init="$watch('editData', () => $nextTick(() => window.refreshIcons?.()))">
+    <div x-show="editModal" x-transition @click.outside="editModal = false" class="modal-panel" style="max-width: 56rem;"
+        x-data="{
+            wastePrices: @js($wastes->pluck('unit_price', 'id')),
+            rupiah(n) { return 'Rp. ' + Number(n || 0).toLocaleString('id-ID'); },
+        }" x-init="$watch('editData', () => $nextTick(() => window.refreshIcons?.()))">
         <form :action="`/transactions/${editData.id}`" method="POST">
             @csrf
             @method('PUT')
@@ -11,6 +14,23 @@
             </div>
 
             <div class="modal-body space-y-4">
+                <div>
+                    <label class="form-label">Nomor Transaksi</label>
+                    <input type="text" class="form-input" :value="editData.transaction_number" disabled>
+                </div>
+
+                <div>
+                    <label class="form-label">Nama Pembuat</label>
+                    <input type="text" class="form-input" :value="editData.customer_name" disabled>
+                </div>
+
+                <div>
+                    <label class="form-label required">Tanggal Minta</label>
+                    <input type="date" name="requested_at" class="form-input" x-model="editData.requested_at"
+                        required>
+                    <x-input-error :messages="$errors->get('requested_at')" class="mt-1" />
+                </div>
+
                 <div>
                     <label for="note" class="form-label">Catatan</label>
                     <textarea name="note" id="note" cols="8" rows="3" class="form-input" x-model="editData.note"
@@ -42,6 +62,10 @@
                                 <input type="text" :name="`note_item[${index}]`" class="form-input"
                                     x-model="item.note_item" placeholder="Catatan item (opsional)">
 
+                                <div class="form-input sm:w-110 flex items-center bg-gray-50 text-text-secondary"
+                                    x-text="rupiah((Number(wastePrices[item.waste_id]) || 0) * (Number(item.qty) || 0))">
+                                </div>
+
                                 <button type="button"
                                     class="shrink-0 flex items-center justify-center w-10 h-10 rounded-lg text-danger hover:bg-danger/10 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                                     :disabled="editData.items.length === 1" @click="editData.items.splice(index, 1)">
@@ -60,6 +84,12 @@
 
                     <x-input-error :messages="$errors->get('waste_id')" class="mt-1" />
                     <x-input-error :messages="$errors->get('qty')" class="mt-1" />
+                </div>
+
+                <div class="flex items-center justify-between pt-3 border-t border-gray-200 font-semibold">
+                    <span>Total Harga</span>
+                    <span
+                        x-text="rupiah((editData.items || []).reduce((sum, i) => sum + (Number(wastePrices[i.waste_id]) || 0) * (Number(i.qty) || 0), 0))"></span>
                 </div>
             </div>
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class TransactionItem extends Model
@@ -10,6 +11,7 @@ class TransactionItem extends Model
         'transaction_id',
         'waste_id',
         'qty',
+        'price',
         'note_item'
     ];
 
@@ -21,5 +23,12 @@ class TransactionItem extends Model
     public function waste()
     {
         return $this->belongsTo(Waste::class);
+    }
+
+    protected function formattedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => 'Rp. ' . number_format($this->price, 0, ',', '.')
+        );
     }
 }

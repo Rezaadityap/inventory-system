@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 
 class Transaction extends Model
@@ -9,6 +10,7 @@ class Transaction extends Model
     protected $fillable = [
         'customer_id',
         'transaction_number',
+        'total_price',
         'status',
         'note',
         'requested_at',
@@ -46,5 +48,12 @@ class Transaction extends Model
     public function approver()
     {
         return $this->belongsTo(User::class, 'id', 'approved_by');
+    }
+
+    protected function formattedPrice(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => 'Rp. ' . number_format($this->total_price, 0, ',', '.')
+        );
     }
 }

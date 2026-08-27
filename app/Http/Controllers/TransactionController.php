@@ -29,6 +29,7 @@ class TransactionController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
+            'requested_at' => 'required|date',
             'note' => 'nullable|string',
             'waste_id.*' => 'required|exists:wastes,id',
             'qty.*' => 'required|integer|min:1',
@@ -41,22 +42,31 @@ class TransactionController extends Controller
             $transaction = Transaction::create([
                 'customer_id' => $customer->id,
                 'transaction_number' => $this->generateTransactionNumber($customer),
+                'total_price' => 0,
                 'status' => 'Pending',
                 'note' => $data['note'] ?? null,
-                'requested_at' => now()
+                'requested_at' => $data['requested_at']
             ]);
+
+            $wastePrices = Waste::whereIn('id', $request->waste_id)->pluck('unit_price', 'id');
+            $totalPrice = 0;
 
             foreach ($request->waste_id as $index => $wasteId) {
                 $qty = (int) $request->qty[$index];
+                $itemPrice = (int) ($wastePrices[$wasteId] ?? 0) * $qty;
+                $totalPrice += $itemPrice;
 
                 $transaction->items()->create([
                     'waste_id' => $wasteId,
                     'qty' => $qty,
+                    'price' => $itemPrice,
                     'note_item' => $request->note_item[$index] ?? null,
                 ]);
 
                 $this->adjustStock($transaction, $wasteId, $qty, 'Keluar', "Order {$transaction->transaction_number}");
             }
+
+            $transaction->update(['total_price' => $totalPrice]);
 
             return $transaction;
         });
@@ -74,6 +84,7 @@ class TransactionController extends Controller
         abort_unless($transaction->status === 'Pending', 403, 'Transaksi yang sudah diproses tidak bisa diedit.');
 
         $data = $request->validate([
+            'requested_at' => 'required|date',
             'note' => 'nullable|string',
             'item_id.*' => 'nullable|integer|exists:transaction_items,id',
             'waste_id.*' => 'required|exists:wastes,id',
@@ -82,15 +93,21 @@ class TransactionController extends Controller
         ]);
 
         DB::transaction(function () use ($data, $request, $transaction) {
-            $transaction->update(['note' => $data['note'] ?? null]);
+            $transaction->update([
+                'requested_at' => $data['requested_at'],
+                'note' => $data['note'] ?? null,
+            ]);
 
             $existingItems = $transaction->items->keyBy('id');
             $submittedIds = [];
+
+            $wastePrices = Waste::whereIn('id', $request->waste_id)->pluck('unit_price', 'id');
 
             foreach ($request->waste_id as $index => $wasteId) {
                 $itemId = $request->item_id[$index] ?? null;
                 $qty = (int) $request->qty[$index];
                 $noteItem = $request->note_item[$index] ?? null;
+                $itemPrice = (int) ($wastePrices[$wasteId] ?? 0) * $qty;
 
                 // Item lama yang diedit — hanya sesuaikan stock kalau waste/qty-nya benar-benar berubah.
                 if ($itemId && $existingItems->has((int) $itemId)) {
@@ -113,6 +130,7 @@ class TransactionController extends Controller
                     $existingItem->update([
                         'waste_id' => $wasteId,
                         'qty' => $qty,
+                        'price' => $itemPrice,
                         'note_item' => $noteItem,
                     ]);
 
@@ -123,6 +141,7 @@ class TransactionController extends Controller
                 $transaction->items()->create([
                     'waste_id' => $wasteId,
                     'qty' => $qty,
+                    'price' => $itemPrice,
                     'note_item' => $noteItem,
                 ]);
 
@@ -136,6 +155,8 @@ class TransactionController extends Controller
                     $existingItem->delete();
                 }
             }
+
+            $transaction->update(['total_price' => $transaction->items()->sum('price')]);
         });
 
         return back()->with('success', "Transaksi {$transaction->transaction_number} berhasil diperbarui.");
