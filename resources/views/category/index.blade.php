@@ -3,7 +3,7 @@
     Kategori
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Daftar seluruh kategori yang terdaftar
 @endsection
 
 @section('content')

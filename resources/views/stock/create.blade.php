@@ -31,16 +31,6 @@
                     <x-input-error :messages="$errors->get('type')" class="mt-1" />
                 </div>
                 <div>
-                    <label for="source" class="form-label required">Sumber</label>
-                    <select name="source" id="source" class="form-input" required>
-                        <option value="">Pilih Sumber</option>
-                        <option value="Order" @selected(old('source') === 'Order')>Order</option>
-                        <option value="Retur" @selected(old('source') === 'Retur')>Retur</option>
-                        <option value="Manual" @selected(old('source', 'Manual') === 'Manual')>Manual</option>
-                    </select>
-                    <x-input-error :messages="$errors->get('source')" class="mt-1" />
-                </div>
-                <div>
                     <label for="qty" class="form-label required">Qty</label>
                     <input type="number" name="qty" id="qty" class="form-input" min="0"
                         value="{{ old('qty') }}" placeholder="Masukan Qty" required>

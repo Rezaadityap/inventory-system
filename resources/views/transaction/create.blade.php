@@ -26,10 +26,10 @@
                 </div>
 
                 <div>
-                    <label for="requested_at" class="form-label required">Tanggal Minta</label>
-                    <input type="date" name="requested_at" id="requested_at" class="form-input"
-                        value="{{ old('requested_at', now()->format('Y-m-d')) }}" required>
-                    <x-input-error :messages="$errors->get('requested_at')" class="mt-1" />
+                    <label for="for_date" class="form-label required">Untuk Tanggal</label>
+                    <input type="date" name="for_date" id="for_date" class="form-input"
+                        value="{{ old('for_date') }}" required>
+                    <x-input-error :messages="$errors->get('for_date')" class="mt-1" />
                 </div>
 
                 <div>
@@ -93,7 +93,7 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn" @click="createModal = false">Batal</button>
-                <button type="submit" class="btn btn-primary">Simpan</button>
+                <button type="submit" class="btn btn-primary">Buat</button>
             </div>
         </form>
     </div>

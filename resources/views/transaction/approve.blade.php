@@ -16,6 +16,13 @@
                             x-text="approveData.transaction_number"></span>?
                     </p>
                 </div>
+
+                <div class="w-full text-left">
+                    <label class="form-label" for="approve-admin-note">Keterangan <span
+                            class="text-text-secondary font-normal">(opsional)</span></label>
+                    <textarea id="approve-admin-note" name="admin_note" rows="3" maxlength="1000" class="form-input"
+                        x-model="approveData.admin_note" placeholder="Tulis keterangan persetujuan..."></textarea>
+                </div>
             </div>
 
             <div class="modal-footer justify-center">

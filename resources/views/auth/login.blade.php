@@ -50,6 +50,7 @@
 
     <p class="text-center text-xs text-text-secondary mt-4">
         Belum punya akun?
-        <a href="#" class="text-primary hover:text-primary-dark hover:underline">Hubungi admin</a>
+        <a href="{{ route('account-request') }}" class="text-primary hover:text-primary-dark hover:underline">Ajukan
+            akun</a>
     </p>
 @endsection

@@ -3,7 +3,7 @@
     Pelanggan
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Kelola informasi dan data riwayat pelanggan
 @endsection
 
 @section('content')

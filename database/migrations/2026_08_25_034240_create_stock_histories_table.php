@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('waste_id')->constrained('wastes')->cascadeOnDelete();
             $table->enum('type', ['Masuk', 'Keluar'])->default('Masuk');
-            $table->enum('source', ['Order', 'Retur', 'Manual'])->default('Manual');
+            $table->enum('source', ['Pesanan', 'Retur', 'Manual'])->default('Manual');
             $table->integer('qty');
             $table->integer('qty_before');
             $table->integer('qty_after');

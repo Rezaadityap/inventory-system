@@ -5,7 +5,7 @@
         'md:w-20': collapsed,
         'md:w-70': !collapsed,
     }"
-    class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full p-5 bg-linear-to-br from-primary to-secondary rounded-r-[28px] shadow-lg shadow-black/5 transition-all duration-300 md:static md:inset-auto md:z-auto md:w-70 md:shrink-0 md:translate-x-0 md:rounded-[28px]">
+    class="fixed inset-y-0 left-0 z-50 w-72 -translate-x-full p-5 bg-linear-to-br from-primary to-secondary rounded-r-[28px] shadow-lg shadow-black/5 transition-all duration-300 md:sticky md:top-5 md:self-start md:h-[calc(100vh-2.5rem)] md:inset-auto md:z-auto md:w-70 md:shrink-0 md:translate-x-0 md:rounded-[28px]">
     <script>
         (function(el) {
             if (localStorage.getItem('sidebarCollapsed') === 'true') {
@@ -26,13 +26,13 @@
             :class="collapsed && 'rotate-180'"></i>
     </button>
 
-    <div class="h-full overflow-y-auto">
+    <div class="h-full overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <div class="flex items-center gap-3 pb-4 mb-4 border-b border-black/5 pr-10 md:pr-0">
             <img src="{{ Auth::user()->photo ? Storage::url(Auth::user()->photo) : 'https://ui-avatars.com/api/?name=' . urlencode(Auth::user()->name) }}"
                 class="w-11 h-11 rounded-2xl object-cover border border-black/5 shrink-0" alt="Foto User">
             <div class="flex flex-col overflow-hidden" x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak>
                 <small
-                    class="text-[10.5px] uppercase tracking-wide text-white whitespace-nowrap">{{ Auth::user()->getRoleNames()->first() ?? 'Member' }}</small>
+                    class="text-[10.5px] uppercase tracking-wide text-white whitespace-nowrap">{{ Auth::user()->role?->name ?? 'Member' }}</small>
                 <p class="font-display text-sm font-semibold text-white whitespace-nowrap">{{ Auth::user()->name }}</p>
             </div>
         </div>
@@ -56,6 +56,22 @@
                                 @if ($item->route === 'transactions.index' && $pendingTransactions > 0)
                                     <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
                                         class="ml-auto inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-danger text-white text-[10.5px] font-semibold">{{ $pendingTransactions }}</span>
+                                    <span x-show="collapsed && !mobileSidebarOpen"
+                                        class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span>
+                                @endif
+                            @endrole
+                            @role('pengemudi')
+                                @if ($item->route === 'shipments.index' && $processingShipments > 0)
+                                    <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
+                                        class="ml-auto inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-danger text-white text-[10.5px] font-semibold">{{ $processingShipments }}</span>
+                                    <span x-show="collapsed && !mobileSidebarOpen"
+                                        class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span>
+                                @endif
+                            @endrole
+                            @role('pelanggan')
+                                @if ($item->route === 'shipments.index' && $arrivedShipments > 0)
+                                    <span x-show="!collapsed || mobileSidebarOpen" x-transition x-cloak
+                                        class="ml-auto inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-danger text-white text-[10.5px] font-semibold">{{ $arrivedShipments }}</span>
                                     <span x-show="collapsed && !mobileSidebarOpen"
                                         class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-danger"></span>
                                 @endif

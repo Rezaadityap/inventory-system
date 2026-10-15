@@ -41,6 +41,10 @@ class StockHistoryController extends Controller
             ->latest()
             ->get();
 
+        if ($histories->isEmpty()) {
+            return back()->with('error', 'Tidak ada data riwayat stock yang bisa diexport untuk filter yang dipilih.');
+        }
+
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setTitle('Riwayat Stock');

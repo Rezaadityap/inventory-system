@@ -26,7 +26,6 @@ class StockController extends Controller
         $validated = $request->validate([
             'waste_id' => 'required|exists:wastes,id',
             'type' => 'required|in:Masuk,Keluar',
-            'source' => 'required|in:Order,Retur,Manual',
             'remark' => 'nullable|string',
             'qty' => 'required|integer|min:1',
         ]);
@@ -60,7 +59,7 @@ class StockController extends Controller
             StockHistory::create([
                 'waste_id' => $validated['waste_id'],
                 'type' => $validated['type'],
-                'source' => $validated['source'],
+                'source' => 'Manual',
                 'qty' => $validated['qty'],
                 'qty_before' => $qtyBefore,
                 'qty_after' => $qtyAfter,

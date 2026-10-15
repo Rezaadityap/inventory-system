@@ -3,7 +3,7 @@
     Pengguna
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Kelola akun, peran, dan hak akses pengguna
 @endsection
 
 @section('content')

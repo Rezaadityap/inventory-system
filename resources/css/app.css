@@ -10,16 +10,16 @@
     --font-sans: "Inter", sans-serif;
     --font-display: "Plus Jakarta Sans", sans-serif;
 
-    --color-primary: #3368a0;
-    --color-primary-dark: #15503a;
-    --color-secondary: #6fa287;
-    --color-background: #f6f9f7;
+    --color-primary: #2563eb;
+    --color-primary-dark: #1e3a8a;
+    --color-secondary: #60a5fa;
+    --color-background: #f0f5fb;
     --color-surface: #ffffff;
     --color-success: #2e9e64;
     --color-warning: #d69e2e;
     --color-danger: #c53030;
-    --color-text-primary: #16241d;
-    --color-text-secondary: #5a6e64;
+    --color-text-primary: #16202e;
+    --color-text-secondary: #556477;
 }
 
 @utility btn {
@@ -154,6 +154,20 @@
 @utility table-badge-danger {
     background-color: color-mix(in srgb, var(--color-danger) 15%, transparent);
     color: var(--color-danger);
+}
+
+@utility table-badge-primary {
+    background-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    color: var(--color-primary);
+}
+
+@utility table-badge-secondary {
+    background-color: color-mix(
+        in srgb,
+        var(--color-secondary) 15%,
+        transparent
+    );
+    color: var(--color-secondary);
 }
 
 @utility pagination-wrapper {

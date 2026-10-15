@@ -13,7 +13,12 @@
                 </div>
 
                 <div>
-                    <label class="form-label">Customer</label>
+                    <label class="form-label">Nama Pembuat</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.name"></p>
+                </div>
+
+                <div>
+                    <label class="form-label">Dari</label>
                     <p class="text-sm text-text-primary" x-text="viewData.customer_name"></p>
                 </div>
 
@@ -23,14 +28,51 @@
                 </div>
 
                 <div>
+                    <label class="form-label">Catatan</label>
+                    <p class="text-sm text-text-primary whitespace-pre-line" x-text="viewData.note || '-'"></p>
+                </div>
+
+                <div>
                     <label class="form-label">Tanggal Diminta</label>
                     <p class="text-sm text-text-primary" x-text="viewData.requested_at || '-'"></p>
                 </div>
+
+                <div>
+                    <label class="form-label">Untuk Tanggal</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.for_date || '-'"></p>
+                </div>
+
+                <div x-show="viewData.status !== 'Ditolak'">
+                    <label class="form-label">Tanggal Disetujui</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.approved_at || '-'"></p>
+                </div>
+
+                <div x-show="viewData.status === 'Ditolak'">
+                    <label class="form-label">Tanggal Ditolak</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.rejected_at || '-'"></p>
+                </div>
+
+                <div x-show="viewData.admin_note">
+                    <label class="form-label"
+                        x-text="viewData.status === 'Ditolak' ? 'Alasan Penolakan' : 'Keterangan Admin'"></label>
+                    <p class="text-sm text-text-primary whitespace-pre-line" x-text="viewData.admin_note"></p>
+                </div>
             </div>
 
-            <div>
-                <label class="form-label">Catatan</label>
-                <p class="text-sm text-text-primary whitespace-pre-line" x-text="viewData.note || '-'"></p>
+            <div x-show="viewData.credit_note_number" x-cloak
+                class="rounded-lg border border-gray-200 p-3 grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div>
+                    <label class="form-label">Transaksi Asal</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.parent_transaction_number || '-'"></p>
+                </div>
+                <div>
+                    <label class="form-label">Nomor Retur</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.retur_number || '-'"></p>
+                </div>
+                <div>
+                    <label class="form-label">Nota Kredit</label>
+                    <p class="text-sm text-text-primary" x-text="viewData.credit_note_number"></p>
+                </div>
             </div>
 
             <div>
@@ -68,11 +110,22 @@
         <div class="modal-footer">
             <button type="button" class="btn" @click="viewModal = false">Tutup</button>
             @role('admin')
+                <button type="button" class="btn bg-danger text-white hover:bg-danger/90"
+                    x-show="viewData.status === 'Menunggu'"
+                    @click="viewModal = false; rejectModal = true; rejectData = {
+                        id: viewData.id,
+                        transaction_number: viewData.transaction_number,
+                        admin_note: '',
+                    }">
+                    <i data-lucide="x" class="w-4 h-4 shrink-0"></i>
+                    Reject
+                </button>
                 <button type="button" class="btn bg-success text-white hover:bg-success/90"
-                    x-show="viewData.status === 'Pending'"
+                    x-show="viewData.status === 'Menunggu'"
                     @click="viewModal = false; approveModal = true; approveData = {
                         id: viewData.id,
                         transaction_number: viewData.transaction_number,
+                        admin_note: '',
                     }">
                     <i data-lucide="check" class="w-4 h-4 shrink-0"></i>
                     Approve

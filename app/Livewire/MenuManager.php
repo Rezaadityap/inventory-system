@@ -54,7 +54,8 @@ class MenuManager extends Component
 
             session()->now('success', 'Menu berhasil diperbarui');
         } else {
-            Menu::create($validated);
+            $menu = Menu::create($validated);
+            $this->createPermissions($menu->code);
             session()->now('success', 'Menu berhasil ditambahkan');
         }
 
@@ -69,6 +70,13 @@ class MenuManager extends Component
         session()->now('success', 'Menu berhasil dihapus');
         $this->loadMenus();
         $this->dispatch('menu-deleted');
+    }
+
+    private function createPermissions(string $code): void
+    {
+        foreach (['show', 'store', 'update', 'delete'] as $action) {
+            Permission::firstOrCreate(['name' => "{$action}-{$code}", 'guard_name' => 'web']);
+        }
     }
 
     private function renamePermissions(string $oldCode, string $newCode): void

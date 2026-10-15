@@ -12,7 +12,7 @@ class CustomerController extends Controller
     public function index()
     {
         $customers = Customer::with('user');
-        $users = User::role('pelanggan')->get();
+        $users = User::withRole('pelanggan')->get();
 
         return view('customer.index', compact('customers', 'users'));
     }

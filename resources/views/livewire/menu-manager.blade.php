@@ -2,7 +2,7 @@
     Kelola Menu
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Kelola struktur, urutan, dan akses menu aplikasi
 @endsection
 
 <div class="w-full bg-white p-5 shadow-md rounded-xl" x-data="{
@@ -28,9 +28,9 @@
     x-on:menu-deleted.window="showDeleteModal = false">
     @include('components.toast')
 
-    <div class="flex items-center justify-between mb-3">
+    <div class="flex items-center flex-col md:flex-row gap-3 justify-between mb-3">
         <h2 class="font-display font-semibold text-text-primary">Daftar Menu</h2>
-        <button type="button" class="btn btn-primary" @click="openCreate">
+        <button type="button" class="btn btn-primary w-full md:w-auto" @click="openCreate">
             Tambah Menu
         </button>
     </div>
@@ -162,7 +162,8 @@
                         <x-input-error :messages="$errors->get('icon')" class="mt-1" />
                         <p class="text-xs text-text-secondary mt-1">
                             Lihat nama icon di
-                            <a href="https://lucide.dev/icons" target="_blank" class="text-primary hover:underline">lucide.dev/icons</a>.
+                            <a href="https://lucide.dev/icons" target="_blank"
+                                class="text-primary hover:underline">lucide.dev/icons</a>.
                             Kosongkan untuk pakai icon default.
                         </p>
                     </div>

@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('page-title')
-    History Stock
+    Riwayat Stok
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Riwayat transaksi stok masuk dan keluar
 @endsection
 
 @section('content')

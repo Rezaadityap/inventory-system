@@ -21,14 +21,19 @@
 
                 <div>
                     <label class="form-label">Nama Pembuat</label>
+                    <input type="text" class="form-input" :value="editData.name" disabled>
+                </div>
+
+                <div>
+                    <label class="form-label">Dari</label>
                     <input type="text" class="form-input" :value="editData.customer_name" disabled>
                 </div>
 
                 <div>
-                    <label class="form-label required">Tanggal Minta</label>
-                    <input type="date" name="requested_at" class="form-input" x-model="editData.requested_at"
+                    <label for="for_date" class="form-label required">Untuk Tanggal</label>
+                    <input type="date" name="for_date" id="for_date" class="form-input" :value="editData.for_date"
                         required>
-                    <x-input-error :messages="$errors->get('requested_at')" class="mt-1" />
+                    <x-input-error :messages="$errors->get('for_date')" class="mt-1" />
                 </div>
 
                 <div>

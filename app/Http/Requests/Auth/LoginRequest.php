@@ -50,6 +50,15 @@ class LoginRequest extends FormRequest
             ]);
         }
 
+        if (! Auth::user()->is_active) {
+            Auth::logout();
+            RateLimiter::hit($this->throttleKey());
+
+            throw ValidationException::withMessages([
+                'username' => 'Akun kamu belum aktif. Permintaan masih menunggu persetujuan admin.',
+            ]);
+        }
+
         RateLimiter::clear($this->throttleKey());
     }
 

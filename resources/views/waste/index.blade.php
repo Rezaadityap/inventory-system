@@ -3,7 +3,7 @@
     Limbah
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Daftar seluruh limbah yang terdaftar
 @endsection
 
 @section('content')

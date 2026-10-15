@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Support\TwoFactor;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,6 +26,22 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+
+        $user = $request->user();
+
+        // Role tertentu (admin, pelanggan) wajib OTP kecuali perangkatnya sudah dipercaya.
+        if (TwoFactor::required($user) && ! TwoFactor::deviceTrusted($user)) {
+            $remember = $request->boolean('remember');
+
+            Auth::guard('web')->logout();
+            $request->session()->regenerate();
+            $request->session()->put('2fa:user', $user->id);
+            $request->session()->put('2fa:remember', $remember);
+
+            TwoFactor::sendCode($user);
+
+            return redirect()->route('two-factor.notice');
+        }
 
         $request->session()->regenerate();
 

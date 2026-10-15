@@ -1,14 +1,13 @@
 @extends('layouts.app')
 @section('page-title')
-    Stock
+    Stok
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Kelola dan pantau ketersediaan stok barang
 @endsection
 
 @section('content')
-    <div class="w-full bg-white p-5 shadow-md rounded-xl"
-        x-data="{ createModal: {{ $errors->any() ? 'true' : 'false' }}, viewModal: false, viewData: {}, deleteModal: false, deleteData: {} }">
+    <div class="w-full bg-white p-5 shadow-md rounded-xl" x-data="{ createModal: {{ $errors->any() ? 'true' : 'false' }}, viewModal: false, viewData: {}, deleteModal: false, deleteData: {} }">
         @livewire('stock-table')
 
         @include('stock.create')

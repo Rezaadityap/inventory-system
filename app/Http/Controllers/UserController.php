@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with('roles')->paginate(10);
+        $users = User::with('role')->paginate(10);
         $roles = Role::all();
 
         return view('user.index', compact('users', 'roles'));
@@ -39,7 +39,7 @@ class UserController extends Controller
         unset($data['role']);
 
         $user = User::create($data);
-        $user->assignRole($role);
+        $user->setRole($role);
 
         return redirect()->route('user.index')->with('success', 'User berhasil ditambahkan.');
     }
@@ -66,7 +66,7 @@ class UserController extends Controller
         unset($data['role']);
 
         $user->update($data);
-        $user->syncRoles([$role]);
+        $user->setRole($role);
 
         return redirect()->route('user.index')->with('success', 'User berhasil diupdate.');
     }

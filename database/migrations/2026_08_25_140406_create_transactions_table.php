@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete();
             $table->string('transaction_number')->unique();
-            $table->enum('status', ['Pending', 'Approved', 'Processing', 'Completed', 'Cancelled'])->default('Pending');
+            $table->enum('status', ['Menunggu', 'Disetujui', 'Dikirim', 'Selesai', 'Dibatalkan'])->default('Menunggu');
             $table->text('note')->nullable();
             $table->timestamp('requested_at')->nullable();
             $table->timestamp('approved_at')->nullable();

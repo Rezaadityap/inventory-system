@@ -2,7 +2,7 @@
     Kelola Role
 @endsection
 @section('page-subtitle')
-    Welcome back, {{ Auth::user()->name }}
+    Kelola daftar peran dan batasan hak akses sistem
 @endsection
 
 <div class="w-full bg-white p-5 shadow-md rounded-xl" x-data="{
@@ -28,9 +28,9 @@
     x-on:role-deleted.window="showDeleteModal = false">
     @include('components.toast')
 
-    <div class="flex items-center justify-between mb-3">
+    <div class="flex items-center flex-col md:flex-row gap-3 justify-between mb-3">
         <h2 class="font-display font-semibold text-text-primary">Daftar Role</h2>
-        <button type="button" class="btn btn-primary" @click="openCreate">
+        <button type="button" class="btn btn-primary w-full md:w-auto" @click="openCreate">
             Tambah Role
         </button>
     </div>

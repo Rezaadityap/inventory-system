@@ -1,4 +1,5 @@
 import "./bootstrap";
+import "./dashboard-charts";
 
 import {
     createIcons,
@@ -27,6 +28,23 @@ import {
     ReceiptText,
     Plus,
     Check,
+    Truck,
+    UserRound,
+    Image,
+    User,
+    Calendar,
+    FileText,
+    UserX,
+    UserCheck,
+    Banknote,
+    Copy,
+    TrendingUp,
+    TrendingDown,
+    ArrowRight,
+    Layers,
+    Minus,
+    RotateCcw,
+    HandCoins,
 } from "lucide";
 
 const icons = {
@@ -55,6 +73,23 @@ const icons = {
     ReceiptText,
     Plus,
     Check,
+    Truck,
+    UserRound,
+    Image,
+    User,
+    Calendar,
+    FileText,
+    UserX,
+    UserCheck,
+    Banknote,
+    Copy,
+    TrendingUp,
+    TrendingDown,
+    ArrowRight,
+    Layers,
+    Minus,
+    RotateCcw,
+    HandCoins,
 };
 
 createIcons({ icons });

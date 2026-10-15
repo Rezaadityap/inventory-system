@@ -31,9 +31,10 @@ new class extends Component {
 ?>
 
 <div class="flex flex-col gap-3">
-    <div class="flex items-center justify-between">
-        <input type="search" wire:model.live.debounce.400ms="search" class="search-input" placeholder="Cari...">
-        <button class="btn btn-primary" type="button" @click="createModal = true">Tambah</button>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-3">
+        <input type="search" wire:model.live.debounce.400ms="search" class="search-input w-full md:w-auto"
+            placeholder="Cari...">
+        <button class="btn btn-primary w-full md:w-auto" type="button" @click="createModal = true">Tambah</button>
     </div>
 
     <div class="table-wrapper" wire:loading.class="opacity-50">

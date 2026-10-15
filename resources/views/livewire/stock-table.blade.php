@@ -45,17 +45,18 @@ new class extends Component {
 ?>
 
 <div class="flex flex-col gap-3">
-    <div class="flex items-center justify-between gap-3">
-        <div class="flex items-center gap-3">
-            <input type="search" wire:model.live.debounce.400ms="search" class="search-input" placeholder="Cari...">
-            <select wire:model.live="categoryFilter" class="form-input">
+    <div class="flex items-center flex-col md:flex-row justify-between gap-3">
+        <div class="flex items-center flex-col sm:flex-row gap-3 w-full md:w-auto">
+            <input type="search" wire:model.live.debounce.400ms="search" class="search-input w-full md:w-auto"
+                placeholder="Cari...">
+            <select wire:model.live="categoryFilter" class="form-input w-full md:w-auto">
                 <option value="">Semua Kategori</option>
                 @foreach ($categories as $category)
                     <option value="{{ $category->id }}">{{ $category->category_name }}</option>
                 @endforeach
             </select>
         </div>
-        <button class="btn btn-primary" type="button" @click="createModal = true">Tambah</button>
+        <button class="btn btn-primary w-full md:w-auto" type="button" @click="createModal = true">Tambah</button>
     </div>
 
     <div class="table-wrapper" wire:loading.class="opacity-50">
